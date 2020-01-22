@@ -1,0 +1,53 @@
+{
+  "name": "Chatnoir",
+  "version": "1.0.0",
+  "description": "Murakumo Industries|Chatnoir",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "webpack --env.NODE_ENV=development --progress --colors --watch",
+    "build": "webpack --env.NODE_ENV=production --progress --colors --display-error-details"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MurakumoIndustries/Chatnoir.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MurakumoIndustries/Chatnoir/issues"
+  },
+  "homepage": "https://github.com/MurakumoIndustries/Chatnoir#readme",
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
+    "file-loader": "^4.2.0",
+    "html-webpack-plugin": "^3.2.0",
+    "mini-css-extract-plugin": "^0.8.0",
+    "style-loader": "^1.0.0",
+    "url-loader": "^2.1.0",
+    "vue-loader": "^15.7.1",
+    "vue-template-compiler": "^2.6.6",
+    "webpack": "^4.39.1",
+    "webpack-cli": "^3.3.6",
+    "webpack-pwa-manifest": "^4.0.0"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "interactjs": "^1.5.4",
+    "jquery": "^3.4.1",
+    "localforage": "^1.7.3",
+    "lodash": "^4.17.15",
+    "material-design-icons-iconfont": "^5.0.1",
+    "nprogress": "^0.2.0",
+    "offline-plugin": "^5.0.6",
+    "page": "^1.8.6",
+    "popper.js": "^1.14.7",
+    "vue": "^2.6.6",
+    "vue-scrollto": "^2.13.0",
+    "workbox-routing": "^4.2.0",
+    "workbox-strategies": "^4.2.0"
+  }
+}
