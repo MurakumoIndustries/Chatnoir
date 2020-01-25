@@ -5,8 +5,8 @@
         </div>
         <div v-else-if="item.type==2" class="my-1">
             <div class="card">
-                <div class="card-body p-2">
-                    <ul class="nav nav-pills pb-2">
+                <div class="card-body p-1">
+                    <ul class="nav nav-pills pb-1">
                         <li
                             class="nav-item"
                             v-for="command in item.commands"

@@ -1,0 +1,146 @@
+<template>
+    <div class="scenario-list-child background h-100">
+        <div class="child-container h-100" :class="{'no-select':!selectedId}">
+            <div class="back-button">
+                <button type="button" class="btn btn-danger btn-block text-left" @click="back()">
+                    <i class="material-icons">arrow_back</i>
+                    <span>{{Ui.getText('back')}}</span>
+                </button>
+            </div>
+            <div class="child-list">
+                <template v-for="item in list">
+                    <a
+                        v-if="!item.list"
+                        :key="item.id"
+                        class="btn btn-light btn-block text-left"
+                        :class="{
+                            'active':item.id==selectedId
+                        }"
+                        :href="'#!/scenario/'+item.type+'/'+item.id"
+                    >
+                        <span v-if="item.nameKey">{{Ui.getText(item.nameKey)}}</span>
+                        <span v-else>{{item.name}}</span>
+                        <i class="material-icons float-right">open_in_browser</i>
+                    </a>
+                    <button
+                        v-else
+                        :key="item.id"
+                        type="button"
+                        class="btn btn-light btn-block"
+                        :class="{
+                           'active':item.id==selectedId
+                       }"
+                        @click="setChild(item)"
+                    >
+                        <span v-if="item.nameKey">{{Ui.getText(item.nameKey)}}</span>
+                        <span v-else>{{item.name}}</span>
+                    </button>
+                </template>
+            </div>
+        </div>
+        <div class="child-child-container h-100" v-if="!!selectedId">
+            <ScenarioListChild :list="childList" :key="selectedId" />
+        </div>
+    </div>
+</template>
+
+<script>
+import { Data } from "../js/data.js";
+import { Event } from "../js/event.js";
+
+export default {
+    name: "ScenarioListChild",
+    props: {
+        list: Array,
+        scenarioId: String
+    },
+    created: function() {
+        var $vm = this;
+        if (this.scenarioId) {
+            var recursive = function(l) {
+                for (var i = 0; i < l.length; i++) {
+                    var group = l[i];
+                    if (group.list) {
+                        var child = recursive(group.list);
+                        if (child && child.id) {
+                            return group;
+                        }
+                    } else if (group.id == $vm.scenarioId) {
+                        return group;
+                    }
+                }
+                return {};
+            };
+            var item = recursive(this.list);
+            this.setChild(item);
+        }
+    },
+    data: function() {
+        return {
+            selectedId: "",
+            childList: []
+        };
+    },
+    methods: {
+        back: function() {
+            this.$parent.selectedId = "";
+        },
+        setChild: function(item) {
+            this.selectedId = item.id;
+            this.childList = item.list;
+        }
+    }
+};
+</script>
+<style lang="scss" scoped>
+@import "~bootstrap/scss/bootstrap";
+
+$scenario-list-child-width: 15rem;
+
+.scenario-list-child {
+    position: relative;
+
+    .child-container {
+        width: $scenario-list-child-width;
+        border-right: 1px #ccc solid;
+        overflow-y: auto;
+    }
+    .child-container.no-select {
+        width: 100%;
+    }
+
+    @include media-breakpoint-down(md) {
+        .child-container {
+            width: 100%;
+            border: none;
+        }
+    }
+
+    .back-button {
+        padding: 0.5rem 0.5rem 0 0.5rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+        .back-button {
+            display: none;
+        }
+    }
+
+    .child-list {
+        padding: 0.5rem;
+    }
+
+    .child-child-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - #{$scenario-list-child-width});
+    }
+    @include media-breakpoint-down(md) {
+        .child-child-container {
+            width: 100%;
+        }
+    }
+}
+</style>
+

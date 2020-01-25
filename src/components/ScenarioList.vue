@@ -1,13 +1,19 @@
 <template>
-    <div class="scenario-list">
-        <ScenarioListPart
-            id="scenario-list-scroller"
-            :list="list"
-            :isExpand="true"
-            style="overflow-y:auto;"
-            :activeType="activeType"
-            :activeId="activeId"
-        />
+    <div class="scenario-list background h-100">
+        <div class="scenario-list-container h-100">
+            <div>
+                <a
+                    class="btn btn-secondary btn-block"
+                    :class="{'active':item.id==selectedId}"
+                    v-for="item in list"
+                    :key="item.id"
+                    :href="'#!/scenario/'+item.id"
+                >{{Ui.getText(item.nameKey)}}</a>
+            </div>
+        </div>
+        <div class="child-list-container h-100" v-if="!!selectedId">
+            <ScenarioListChild :list="childList" :key="selectedId" :scenarioId="scenarioId" />
+        </div>
     </div>
 </template>
 
@@ -15,101 +21,68 @@
 import { Data } from "../js/data.js";
 import { Event } from "../js/event.js";
 
-import Collapse from "./Collapse.vue";
-import ScenarioListPart from "./ScenarioListPart.vue";
-
-import VueScrollTo from "vue-scrollto";
+import ScenarioListChild from "./ScenarioListChild.vue";
 
 export default {
     created: function() {
         var $vm = this;
         Event.$on("set-current-scenario", function(type, id) {
-            $vm.setCurrentScenario(type, id);
+            $vm.selectedId = "";
+            if (!type) {
+                return;
+            }
+            var item = Data.get("scenariolist", type);
+            $vm.childList = item.list;
+            $vm.selectedId = item.id;
+            $vm.scenarioId = id;
         });
-    },
-    props: {
-        isShowSidebar: Boolean
     },
     data: function() {
         return {
-            searchText: "",
             list: Data.getAll("scenariolist"),
-            activeType: "",
-            activeId: ""
+            selectedId: "",
+            childList: [],
+            scenarioId: ""
         };
     },
-    methods: {
-        setCurrentScenario: function(type, id) {
-            var $vm = this;
-            console.log("setCurrentScenario");
-            this.searchText = "";
-            this.activeType = type;
-            this.activeId = id;
-            ////dirty fix for multiple animations
-            var timeout = 0;
-
-            var recursive = function(l) {
-                var parentNeedOpen = false;
-                for (var i = 0; i < l.length; i++) {
-                    var group = l[i];
-                    if (group.list) {
-                        $vm.$set(group, "isExpand", false);
-                        if (recursive(group.list)) {
-                            parentNeedOpen = true;
-                            $vm.$set(group, "isExpand", true);
-                        }
-                    } else if (group.type == type && group.id == id) {
-                        return true;
-                    }
-                }
-                return parentNeedOpen;
-            };
-            recursive(this.list);
-            //_.each(this.scenariolist, function(group, index) {
-            //    var oldGroupIsShow = group.isShow;
-            //    group.isShow = false;
-            //    if (
-            //        _.some(group.scenarios, function(scenario) {
-            //            return scenario.id == id;
-            //        })
-            //    ) {
-            //        group.isShow = true;
-            //    }
-            //    if (group.isShow != oldGroupIsShow) {
-            //        timeout = 300;
-            //    }
-            //});
-            this.$nextTick(function() {
-                window.setTimeout(function() {
-                    VueScrollTo.scrollTo("#" + type + "_" + id, {
-                        container: "#scenario-list-scroller"
-                    });
-                }, timeout);
-            });
-        }
-    },
     components: {
-        Collapse,
-        ScenarioListPart
+        ScenarioListChild
     }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "~bootstrap/scss/bootstrap";
+
+$scenario-list-width: 12rem;
+
 .scenario-list {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
+    position: relative;
 
-@media (min-width: 768px) {
-    .scenario-list {
-        height: 100%;
-        border-bottom: none;
+    .scenario-list-container {
+        width: $scenario-list-width;
+        border-right: 1px #ccc solid;
+        overflow-y: auto;
+        padding: 0.5rem;
     }
-}
 
-.scenario-list-search {
-    overflow: visible;
+    @include media-breakpoint-down(md) {
+        .scenario-list-container {
+            width: 100%;
+            border: none;
+        }
+    }
+
+    .child-list-container {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: calc(100% - #{$scenario-list-width});
+    }
+    @include media-breakpoint-down(md) {
+        .child-list-container {
+            width: 100%;
+        }
+    }
 }
 </style>
 

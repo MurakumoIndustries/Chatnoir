@@ -40,29 +40,10 @@ var initControl = function () {
         components: { App }
     });
 
-    var initMapInteractTimeout;
-    $(window).resize(function () {
-        clearTimeout(initMapInteractTimeout);
-        initMapInteractTimeout = setTimeout(initMapInteract(), 500);
-    });
-
     inited = true;
 };
 var render = function (type, id) {
-    console.log("render", type, id);
-    var self = this;
-    if (!type || !id) {
-        return;
-    }
-
     Event.$emit('render', type, id);
-
-    Vue.nextTick(function () {
-        if ($('.sidebar-toggle').is(":visible")) {
-            //hide sidebar when mobile
-            Event.$emit('toggle-sidebar', false);
-        }
-    });
 };
 
 export { init };

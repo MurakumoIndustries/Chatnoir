@@ -38,11 +38,32 @@ data["disablecachewarning"] = {
     "zh-CN": "禁用缓存会导致网页加载缓慢，是否确认禁用？"
 };
 
+data["back"] = {
+    "ja-JP": "前のページ",
+    "zh-TW": "返回",
+    "en-US": "Back",
+    "zh-CN": "返回",
+};
+
 data["actress"] = {
     "ja-JP": "アクトレス",
     "zh-TW": "角色",
     "en-US": "Actress",
     "zh-CN": "角色",
+};
+
+data["actressGroupActress"] = {
+    "ja-JP": "キャラエピソード",
+    "zh-TW": "角色劇情",
+    "en-US": "Actress",
+    "zh-CN": "角色剧情",
+};
+
+data["actressGroupComu"] = {
+    "ja-JP": "絆エピソード",
+    "zh-TW": "羈絆劇情",
+    "en-US": "Communication",
+    "zh-CN": "牵绊剧情",
 };
 
 data["story"] = {
@@ -70,7 +91,7 @@ data["festa"] = {
     "ja-JP": "フェスタ",
     "zh-TW": "嘉年華",
     "en-US": "Festa",
-    "zh-CN": "嘉年华",
+    "zh-CN": "庆典",
 };
 
 var getText = function (key) {

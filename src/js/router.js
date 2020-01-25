@@ -15,8 +15,8 @@ var init = function () {
             console.log("route:scenarioRoute");
             View.init(ctx.params.type, ctx.params.id);
         };
-        page('scenario/:type/:id', scenarioPage);
-        page('/scenario/:type/:id', scenarioPage);
+        page('scenario/:type/:id?', scenarioPage);
+        page('/scenario/:type/:id?', scenarioPage);
 
         var langPage = function (ctx) {
             console.log("route:langRoute", ctx);

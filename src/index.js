@@ -1,9 +1,7 @@
 import 'popper.js'
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
-import "material-design-icons-iconfont/dist/material-design-icons.css";
-import './style.css'
+import './style.scss'
 
 import Vue from 'vue'
 
