@@ -84,6 +84,9 @@ export default {
     methods: {
         back: function() {
             this.$parent.selectedId = "";
+            if (this.$parent.$options.name != "ScenarioListChild") {
+                location.hash = "";
+            }
         },
         setChild: function(item) {
             this.selectedId = item.id;
