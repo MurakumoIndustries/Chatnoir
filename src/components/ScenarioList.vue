@@ -12,7 +12,12 @@
             </div>
         </div>
         <div class="child-list-container h-100" v-if="!!selectedId">
-            <ScenarioListChild :list="childList" :key="selectedId" :scenarioId="scenarioId" />
+            <ScenarioListChild
+                :key="selectedId"
+                :parentId="selectedId"
+                :list="childList"
+                :scenarioId="scenarioId"
+            />
         </div>
     </div>
 </template>

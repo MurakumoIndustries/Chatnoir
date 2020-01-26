@@ -1,6 +1,10 @@
 <template>
     <div class="scenario-list-child background h-100">
-        <div class="child-container h-100" :class="{'no-select':!selectedId}">
+        <div
+            :id="'container_'+parentId"
+            class="child-container h-100"
+            :class="{'no-select':!selectedId}"
+        >
             <div class="back-button">
                 <button type="button" class="btn btn-danger btn-block text-left" @click="back()">
                     <i class="material-icons">arrow_back</i>
@@ -12,6 +16,7 @@
                     <a
                         v-if="!item.list"
                         :key="item.id"
+                        :id="'button_'+parentId+'_'+item.id"
                         class="btn btn-light btn-block text-left"
                         :class="{
                             'active':item.id==selectedId
@@ -25,6 +30,7 @@
                     <button
                         v-else
                         :key="item.id"
+                        :id="'button_'+parentId+'_'+item.id"
                         type="button"
                         class="btn btn-light btn-block"
                         :class="{
@@ -39,7 +45,12 @@
             </div>
         </div>
         <div class="child-child-container h-100" v-if="!!selectedId">
-            <ScenarioListChild :list="childList" :key="selectedId" />
+            <ScenarioListChild
+                :key="selectedId"
+                :parentId="selectedId"
+                :list="childList"
+                :scenarioId="scenarioId"
+            />
         </div>
     </div>
 </template>
@@ -48,10 +59,13 @@
 import { Data } from "../js/data.js";
 import { Event } from "../js/event.js";
 
+import { scroller } from "vue-scrollto/src/scrollTo";
+
 export default {
     name: "ScenarioListChild",
     props: {
         list: Array,
+        parentId: String,
         scenarioId: String
     },
     created: function() {
@@ -72,7 +86,17 @@ export default {
                 return {};
             };
             var item = recursive(this.list);
-            this.setChild(item);
+            if (item.list) {
+                this.setChild(item);
+            }
+            this.$nextTick(function() {
+                var asnycScroller = scroller();
+                asnycScroller("#button_" + $vm.parentId + "_" + item.id, {
+                    container: "#container_" + $vm.parentId,
+                    offset: -8,
+                    duration: 1 //cannot set to 0
+                });
+            });
         }
     },
     data: function() {
