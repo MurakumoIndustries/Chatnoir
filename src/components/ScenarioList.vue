@@ -36,10 +36,12 @@ export default {
             if (!type) {
                 return;
             }
-            var item = Data.get("scenariolist", type);
-            $vm.childList = item.list;
-            $vm.selectedId = item.id;
-            $vm.scenarioId = id;
+            $vm.$nextTick(function() {
+                var item = Data.get("scenariolist", type);
+                $vm.childList = item.list;
+                $vm.selectedId = item.id;
+                $vm.scenarioId = id;
+            });
         });
     },
     data: function() {

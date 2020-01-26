@@ -3,7 +3,7 @@
         <div
             :id="'container_'+parentId"
             class="child-container h-100"
-            :class="{'no-select':!selectedId}"
+            :class="{'no-child':!hasChild}"
         >
             <div class="back-button">
                 <button type="button" class="btn btn-danger btn-block text-left" @click="back()">
@@ -44,7 +44,7 @@
                 </template>
             </div>
         </div>
-        <div class="child-child-container h-100" v-if="!!selectedId">
+        <div class="child-child-container h-100" v-if="(!!selectedId)&&(!!hasChild)">
             <ScenarioListChild
                 :key="selectedId"
                 :parentId="selectedId"
@@ -86,9 +86,7 @@ export default {
                 return {};
             };
             var item = recursive(this.list);
-            if (item.list) {
-                this.setChild(item);
-            }
+            this.setChild(item);
             this.$nextTick(function() {
                 var asnycScroller = scroller();
                 asnycScroller("#button_" + $vm.parentId + "_" + item.id, {
@@ -102,7 +100,8 @@ export default {
     data: function() {
         return {
             selectedId: "",
-            childList: []
+            childList: [],
+            hasChild: false
         };
     },
     methods: {
@@ -113,6 +112,7 @@ export default {
             }
         },
         setChild: function(item) {
+            this.hasChild = item.list !== undefined;
             this.selectedId = item.id;
             this.childList = item.list;
         }
@@ -132,7 +132,7 @@ $scenario-list-child-width: 15rem;
         border-right: 1px #ccc solid;
         overflow-y: auto;
     }
-    .child-container.no-select {
+    .child-container.no-child {
         width: 100%;
     }
 

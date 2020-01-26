@@ -24,7 +24,35 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item"></li>
+                <form @submit.prevent="openSearch()" class="form-inline my-2 my-lg-0">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <button
+                                class="btn btn-outline-danger"
+                                type="button"
+                                @click="closeSearch()"
+                            >{{Ui.getText('clear')}}</button>
+                        </div>
+                        <input
+                            class="form-control"
+                            type="search"
+                            v-model="searchQuery"
+                            :placeholder="Ui.getText('search')"
+                        />
+                        <div class="input-group-append">
+                            <button
+                                class="btn btn-outline-primary"
+                                type="button"
+                                @click="openSearch()"
+                            >{{Ui.getText('search')}}</button>
+                            <button
+                                class="btn btn-outline-primary"
+                                type="button"
+                                @click="openSearchAll()"
+                            >{{Ui.getText('searchall')}}</button>
+                        </div>
+                    </div>
+                </form>
             </ul>
 
             <ul class="navbar-nav my-0">
@@ -146,7 +174,8 @@ export default {
         return {
             langText: Ui.getLangText(),
             isUpdating: false,
-            isUpdateReady: false
+            isUpdateReady: false,
+            searchQuery: ""
         };
     },
     created: function() {
@@ -185,6 +214,16 @@ export default {
                             });
                     });
             }
+        },
+        openSearch: function() {
+            Event.$emit("open-search", this.searchQuery);
+        },
+        openSearchAll: function() {
+            Event.$emit("open-search", this.searchQuery, 99999999);
+        },
+        closeSearch: function() {
+            this.searchQuery = "";
+            Event.$emit("close-search");
         }
     },
     computed: {

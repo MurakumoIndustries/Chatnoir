@@ -1,6 +1,7 @@
 <template>
     <div class="main-container h-100">
         <ScenarioList />
+        <SearchOverlay />
         <Scenario />
     </div>
 </template>
@@ -10,6 +11,7 @@ import { Event } from "../js/event.js";
 
 import ScenarioList from "./ScenarioList.vue";
 import Scenario from "./Scenario.vue";
+import SearchOverlay from "./SearchOverlay.vue";
 
 export default {
     data: function() {
@@ -24,7 +26,8 @@ export default {
     computed: {},
     components: {
         ScenarioList,
-        Scenario
+        Scenario,
+        SearchOverlay
     }
 };
 </script>

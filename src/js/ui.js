@@ -20,6 +20,10 @@ var supportedLang = [{
 var currentLang = '';
 var data = [];
 //navbar
+data["search"] = { "ja-JP": "検索", "zh-TW": "搜尋", "en-US": "Search", "zh-CN": "查询" };
+data["searchall"] = { "ja-JP": "すべて検索", "zh-TW": "搜尋全部", "en-US": "Search All", "zh-CN": "查询全部" };
+data["clear"] = { "ja-JP": "クリア", "zh-TW": "清空", "en-US": "Clear", "zh-CN": "清空" };
+
 data["currentversion"] = { "ja-JP": "バージョン：", "zh-TW": "當前版本：", "en-US": "Current Ver.:", "zh-CN": "当前版本：" };
 data["externallink"] = { "ja-JP": "外部リンク", "zh-TW": "外部鏈接", "en-US": "External Links", "zh-CN": "外部链接" };
 data["officalsite"] = { "ja-JP": "公式サイト", "zh-TW": "官網", "en-US": "Offical Site", "zh-CN": "官网" };
