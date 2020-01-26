@@ -120,7 +120,9 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
 
 $scenario-list-child-width: 15rem;
 
