@@ -57,6 +57,10 @@
                 ></span>
             </div>
         </div>
+        <div v-else-if="item.type==99" class="my-1">
+            <div class="d-flex flex-column align-items-center p-2">
+            </div>
+        </div>
         <div v-else class="card my-1 d-inline-block">
             <div class="card-body p-0">
                 <div class="media">
